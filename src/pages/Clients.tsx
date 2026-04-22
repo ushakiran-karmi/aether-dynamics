@@ -70,7 +70,7 @@ const Clients = () => {
                 key={c}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false, amount: 0.2 }}
                 transition={{ duration: 0.5, delay: i * 0.04 }}
               >
                 <Logo name={c} />
@@ -95,7 +95,7 @@ const Clients = () => {
                 key={t.name}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false, amount: 0.2 }}
                 transition={{ duration: 0.7, delay: i * 0.1 }}
                 className="p-7 rounded-2xl glass border border-border/60"
               >

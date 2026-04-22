@@ -94,13 +94,22 @@ const Index = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) => {
-        gsap.from(el, {
-          y: 60,
-          opacity: 0,
-          duration: 1.1,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 85%" },
-        });
+        gsap.fromTo(
+          el,
+          { y: 60, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              end: "bottom 15%",
+              toggleActions: "play reverse play reverse",
+            },
+          }
+        );
       });
       gsap.utils.toArray<HTMLElement>(".parallax-slow").forEach((el) => {
         gsap.to(el, {
@@ -213,7 +222,7 @@ const Index = () => {
                 key={s.title}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
+                viewport={{ once: false, amount: 0.2, margin: "-60px" }}
                 transition={{ duration: 0.7, delay: i * 0.08 }}
                 whileHover={{ y: -6 }}
                 className="group relative p-7 rounded-2xl border border-border/70 bg-card/40 backdrop-blur-sm hover:border-primary/60 transition-colors"
@@ -248,7 +257,7 @@ const Index = () => {
                 key={p.title}
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false, amount: 0.2 }}
                 transition={{ duration: 0.8, delay: i * 0.1 }}
                 className={`group relative overflow-hidden rounded-2xl border border-border/60 ${i === 1 ? "md:translate-y-12" : ""}`}
               >
@@ -291,7 +300,7 @@ const Index = () => {
                 key={t.name}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false, amount: 0.2 }}
                 transition={{ duration: 0.7, delay: i * 0.1 }}
                 className="relative p-7 rounded-2xl glass border border-border/60"
               >

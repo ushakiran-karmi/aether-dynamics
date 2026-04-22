@@ -20,7 +20,19 @@ const queryClient = new QueryClient();
 
 const SmoothScroll = () => {
   useEffect(() => {
-    const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+    const lenis = new Lenis({
+      duration: 1.4,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.5,
+    });
+
+    // Keep GSAP ScrollTrigger in sync with Lenis
+    lenis.on("scroll", () => {
+      if ((window as any).ScrollTrigger) (window as any).ScrollTrigger.update();
+    });
+
     let raf = 0;
     const tick = (t: number) => {
       lenis.raf(t);

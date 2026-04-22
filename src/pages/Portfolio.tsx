@@ -1,6 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const filters = ["All", "Web", "Branding", "Motion", "Product"] as const;
 type Filter = typeof filters[number];
@@ -24,6 +28,24 @@ const Portfolio = () => {
     () => (filter === "All" ? projects : projects.filter((p) => p.tag === filter)),
     [filter]
   );
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>(".pf-img").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { yPercent: -8, scale: 1.15 },
+          {
+            yPercent: 8,
+            scale: 1.15,
+            ease: "none",
+            scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
+          }
+        );
+      });
+    });
+    return () => ctx.revert();
+  }, [list]);
 
   return (
     <main className="bg-background text-foreground overflow-x-hidden">
@@ -91,7 +113,7 @@ const Portfolio = () => {
                     src={p.img}
                     alt={p.title}
                     loading="lazy"
-                    className="h-full w-full object-cover scale-105 group-hover:scale-110 transition-transform duration-[1500ms]"
+                    className="pf-img h-full w-full object-cover will-change-transform"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent opacity-90" />
