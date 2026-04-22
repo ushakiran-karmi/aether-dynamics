@@ -29,13 +29,22 @@ const About = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.utils.toArray<HTMLElement>(".tl-item").forEach((el) => {
-        gsap.from(el, {
-          x: -60,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 85%" },
-        });
+        gsap.fromTo(
+          el,
+          { x: -60, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              end: "bottom 15%",
+              toggleActions: "play reverse play reverse",
+            },
+          }
+        );
       });
       gsap.to(".tl-progress", {
         scaleY: 1,
@@ -86,7 +95,7 @@ const About = () => {
               key={src}
               initial={{ opacity: 0, y: 80 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.9, delay: i * 0.12 }}
               className={`overflow-hidden rounded-2xl border border-border/60 ${i === 1 ? "translate-y-12" : ""}`}
             >
@@ -137,7 +146,7 @@ const About = () => {
                 key={v.title}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false, amount: 0.2 }}
                 transition={{ duration: 0.7, delay: i * 0.08 }}
                 className="p-7 rounded-2xl border border-border/70 bg-card/40 hover:border-primary/60 transition-colors"
               >

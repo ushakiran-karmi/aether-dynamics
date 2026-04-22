@@ -71,7 +71,7 @@ const Services = () => {
               key={s.slug}
               initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
+              viewport={{ once: false, amount: 0.2, margin: "-60px" }}
               transition={{ duration: 0.7, delay: i * 0.07 }}
             >
               <TiltCard>
@@ -120,7 +120,7 @@ const Services = () => {
                 key={step}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false, amount: 0.2 }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 className="relative p-6 rounded-2xl glass border border-border/60"
               >
