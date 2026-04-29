@@ -1,169 +1,270 @@
 import { motion } from "framer-motion";
 import {
-  Lightbulb,
-  Users,
+  ArrowRight,
+  Target,
+  Gem,
+  Megaphone,
+  Search,
   PieChart,
-  Hourglass,
-  Star,
-  Award,
-  Settings,
   TrendingUp,
-  Stars,
-  BarChart3,
-  MapPin,
+  Smile,
+  Rocket,
+  LineChart,
 } from "lucide-react";
 
-type Cell = {
-  id: string;
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  body: string;
-  col: string;
-  row: string;
-  accent?: boolean;
-};
+const NAV = ["Home", "About", "Services", "Portfolio", "Contact"];
 
-const PETALS: Cell[] = [
-  { id: "p1", icon: Lightbulb, title: "Lorem Ipsum", body: "Lorem ipsum dolor sit amet, ius quaestio perpetua, cu graece scripta vituperatoribus qui", col: "col-start-3", row: "row-start-1", accent: true },
-  { id: "p2", icon: Users,     title: "Lorem Ipsum", body: "Lorem ipsum dolor sit amet, ius quaestio perpetua, cu graece scripta vituperatoribus qui", col: "col-start-1", row: "row-start-2" },
-  { id: "p3", icon: Star,      title: "Lorem Ipsum", body: "Lorem ipsum dolor sit amet, ius quaestio perpetua, cu graece scripta vituperatoribus qui", col: "col-start-5", row: "row-start-2" },
-  { id: "p4", icon: Settings,  title: "Lorem Ipsum", body: "Lorem ipsum dolor sit amet, ius quaestio perpetua, cu graece scripta vituperatoribus qui", col: "col-start-1", row: "row-start-4" },
-  { id: "p5", icon: BarChart3, title: "Lorem Ipsum", body: "Lorem ipsum dolor sit amet, ius quaestio perpetua, cu graece scripta vituperatoribus qui", col: "col-start-5", row: "row-start-4" },
-  { id: "p6", icon: MapPin,    title: "Lorem Ipsum", body: "Lorem ipsum dolor sit amet, ius quaestio perpetua, cu graece scripta vituperatoribus qui", col: "col-start-3", row: "row-start-5" },
+const FLOATERS = [
+  {
+    icon: Target,
+    title: "Strategy",
+    body: "Data-backed marketing strategies",
+    iconColor: "text-blue-500",
+    pos: "top-[2%] left-[42%]",
+    delay: 0.2,
+  },
+  {
+    icon: Gem,
+    title: "Branding",
+    body: "Build memorable brand identities",
+    iconColor: "text-rose-400",
+    pos: "top-[28%] left-[6%]",
+    delay: 0.35,
+  },
+  {
+    icon: Megaphone,
+    title: "Ads Campaigns",
+    body: "High-converting ad campaigns",
+    iconColor: "text-amber-400",
+    pos: "top-[32%] right-[2%]",
+    delay: 0.5,
+  },
+  {
+    icon: Search,
+    title: "SEO",
+    body: "Rank higher & get found faster",
+    iconColor: "text-emerald-500",
+    pos: "bottom-[10%] left-[20%]",
+    delay: 0.65,
+  },
+  {
+    icon: PieChart,
+    title: "Analytics",
+    body: "Track, analyze & improve performance",
+    iconColor: "text-blue-500",
+    pos: "bottom-[4%] right-[4%]",
+    delay: 0.8,
+  },
 ];
 
-const INNER: Cell[] = [
-  { id: "i1", icon: PieChart,   title: "", body: "Lorem ipsum dolor sit amet, ut ius quaestio perpetua", col: "col-start-2", row: "row-start-2" },
-  { id: "i2", icon: Hourglass,  title: "", body: "Lorem ipsum dolor sit amet, ut ius quaestio perpetua", col: "col-start-4", row: "row-start-2" },
-  { id: "i3", icon: Award,      title: "", body: "Lorem ipsum dolor sit amet, ut ius quaestio perpetua", col: "col-start-2", row: "row-start-3" },
-  { id: "i4", icon: Settings,   title: "", body: "Lorem ipsum dolor sit amet, ut ius quaestio perpetua", col: "col-start-4", row: "row-start-3" },
-  { id: "i5", icon: TrendingUp, title: "", body: "Lorem ipsum dolor sit amet, ut ius quaestio perpetua", col: "col-start-2", row: "row-start-4" },
-  { id: "i6", icon: Stars,      title: "", body: "Lorem ipsum dolor sit amet, ut ius quaestio perpetua", col: "col-start-4", row: "row-start-4" },
+const STATS = [
+  { icon: Smile, color: "bg-blue-100 text-blue-500", value: "120+", label: "Happy Clients" },
+  { icon: Rocket, color: "bg-violet-100 text-violet-500", value: "250+", label: "Projects Delivered" },
+  { icon: LineChart, color: "bg-emerald-100 text-emerald-500", value: "8X", label: "Average ROI" },
 ];
-
-const HEX_CLIP = "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)";
-
-const Hex = ({
-  children,
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.85, y: 12 }}
-    whileInView={{ opacity: 1, scale: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.3 }}
-    transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-    whileHover={{ scale: 1.04 }}
-    className="relative aspect-[1/1.1547] w-full"
-    style={{ clipPath: HEX_CLIP }}
-  >
-    <div className="absolute inset-0 bg-gradient-to-br from-primary/60 via-accent/50 to-secondary/60" />
-    <div
-      className="absolute inset-[1.5px] glass flex items-center justify-center"
-      style={{ clipPath: HEX_CLIP }}
-    >
-      {children}
-    </div>
-  </motion.div>
-);
 
 const Index = () => {
   return (
-    <main className="min-h-screen bg-background bg-hero-glow font-sans text-foreground overflow-hidden">
-      <section className="relative pt-32 pb-10 px-6 text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-[11px] font-semibold uppercase tracking-[0.32em] text-accent"
-        >
-          Our Framework
-        </motion.p>
-        <motion.h1
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="mt-4 text-4xl md:text-6xl font-light tracking-tight"
-        >
-          A <span className="text-gradient font-medium">connected</span> system,
-          built around your brand.
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="mx-auto mt-5 max-w-xl text-base text-muted-foreground"
-        >
-          Twelve disciplines orbiting one core idea — every hex is a service
-          working in concert with the others.
-        </motion.p>
-      </section>
-
-      <section className="relative px-4 md:px-10 pb-32">
-        <div className="relative mx-auto grid w-full max-w-5xl grid-cols-5 grid-rows-5 gap-x-2 gap-y-3 md:gap-x-4 md:gap-y-5">
-          {PETALS.map((c, i) => {
-            const Icon = c.icon;
-            return (
-              <div key={c.id} className={`${c.col} ${c.row}`}>
-                <Hex delay={0.05 * i}>
-                  <div className="flex flex-col items-center px-4 text-center">
-                    <Icon className={`h-6 w-6 mb-2 ${c.accent ? "text-accent" : "text-foreground/90"}`} />
-                    <p className={`text-[11px] font-semibold uppercase tracking-[0.22em] ${c.accent ? "text-accent" : "text-primary"}`}>
-                      {c.title}
-                    </p>
-                    <p className="mt-1.5 text-[10px] leading-snug text-muted-foreground line-clamp-4">
-                      {c.body}
-                    </p>
-                  </div>
-                </Hex>
-              </div>
-            );
-          })}
-
-          {INNER.map((c, i) => {
-            const Icon = c.icon;
-            return (
-              <div key={c.id} className={`${c.col} ${c.row}`}>
-                <Hex delay={0.4 + 0.05 * i}>
-                  <div className="flex flex-col items-center px-3 text-center">
-                    <Icon className="h-5 w-5 mb-1.5 text-foreground/80" />
-                    <p className="text-[10px] leading-snug text-muted-foreground line-clamp-3">
-                      {c.body}
-                    </p>
-                  </div>
-                </Hex>
-              </div>
-            );
-          })}
-
-          <div className="col-start-3 row-start-3">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.7 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative aspect-[1/1.1547] w-full"
-              style={{ clipPath: HEX_CLIP }}
+    <main className="min-h-screen bg-[#F1F3FA] font-sans text-slate-900 overflow-hidden">
+      {/* Navbar */}
+      <header className="sticky top-6 z-40 mx-auto flex max-w-5xl items-center justify-between rounded-2xl bg-white px-6 py-3 shadow-[0_10px_40px_-15px_rgba(15,23,42,0.15)]">
+        <div className="flex items-center gap-1 text-2xl font-extrabold tracking-tight">
+          <span className="text-blue-500">M</span>
+          <span className="text-emerald-500">W</span>
+        </div>
+        <nav className="flex items-center gap-2 text-sm font-medium text-slate-600">
+          {NAV.map((item) => (
+            <a
+              key={item}
+              href="#"
+              className={`rounded-full px-5 py-2 transition-colors ${
+                item === "About"
+                  ? "bg-blue-50 text-blue-600"
+                  : "hover:text-slate-900"
+              }`}
             >
-              <div className="absolute inset-0 bg-gradient-primary" />
-              <div
-                className="absolute inset-[2px] bg-card flex flex-col items-center justify-center"
-                style={{ clipPath: HEX_CLIP }}
-              >
+              {item}
+            </a>
+          ))}
+        </nav>
+      </header>
+
+      {/* Hero */}
+      <section className="relative mx-auto mt-12 grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-2 lg:px-14">
+        {/* LEFT */}
+        <div>
+          <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-slate-400">
+            <span className="h-px w-10 bg-slate-300" />
+            Scroll To Reveal About Us
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mt-16 text-sm font-semibold uppercase tracking-[0.28em] text-blue-600"
+          >
+            Who We Are
+          </motion.p>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="mt-4 text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight text-slate-900"
+          >
+            We Don&apos;t Just Market,
+            <br />
+            We{" "}
+            <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
+              Grow Brands.
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="mt-6 max-w-md text-base leading-relaxed text-slate-500"
+          >
+            We&apos;re a performance-driven marketing &amp; advertising agency
+            that combines strategy, creativity, and data to deliver measurable
+            growth for your business.
+          </motion.p>
+
+          <motion.a
+            href="#"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="group mt-9 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-500 py-3 pl-7 pr-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/30"
+          >
+            Know More About Us
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/25 transition-transform group-hover:translate-x-1">
+              <ArrowRight className="h-4 w-4" />
+            </span>
+          </motion.a>
+
+          {/* Stats */}
+          <div className="mt-16 flex flex-wrap items-center gap-10">
+            {STATS.map((s, i) => {
+              const Icon = s.icon;
+              return (
                 <motion.div
-                  animate={{ rotate: [0, 8, -8, 0] }}
-                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                  className="h-10 w-10 rounded-md border-2 border-accent rotate-45"
-                />
-                <p className="mt-3 text-[11px] font-serif italic text-foreground/90">Company</p>
-                <p className="text-[11px] font-serif italic text-foreground/90 -mt-0.5">Logo</p>
-              </div>
-              <div className="absolute -inset-6 -z-10 rounded-full bg-accent/20 blur-3xl" />
-            </motion.div>
+                  key={s.label}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
+                  className="flex items-center gap-3"
+                >
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-full ${s.color}`}>
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-slate-900">{s.value}</p>
+                    <p className="text-xs text-slate-500">{s.label}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
+
+        {/* RIGHT — Orbit */}
+        <div className="relative h-[560px] lg:h-[640px]">
+          {/* Orbit rings */}
+          <div className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-slate-300/60" />
+          <div className="absolute left-1/2 top-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-slate-200/70" />
+
+          {/* Orbit dots */}
+          <span className="absolute left-[26%] top-[18%] h-2.5 w-2.5 rounded-full border border-blue-400 bg-white" />
+          <span className="absolute right-[20%] top-[28%] h-2.5 w-2.5 rounded-full bg-pink-400" />
+          <span className="absolute right-[14%] top-[55%] h-2.5 w-2.5 rounded-full bg-emerald-400" />
+          <span className="absolute bottom-[12%] left-[42%] h-2.5 w-2.5 rounded-full border border-blue-400 bg-white" />
+
+          {/* Decorative spheres */}
+          <motion.div
+            animate={{ y: [0, -14, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute right-[2%] top-[8%] h-24 w-24 rounded-full bg-gradient-to-br from-violet-300 to-indigo-400 opacity-80 blur-[1px]"
+          />
+          <motion.div
+            animate={{ y: [0, 12, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-[18%] left-[6%] h-16 w-16 rounded-full bg-gradient-to-br from-white to-slate-200 shadow-lg"
+          />
+
+          {/* Central hero sphere */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          >
+            <div className="relative h-[300px] w-[300px] md:h-[340px] md:w-[340px]">
+              {/* Glow */}
+              <div className="absolute -inset-10 rounded-full bg-pink-300/40 blur-3xl" />
+              <div className="absolute -inset-6 rounded-full bg-blue-400/30 blur-2xl" />
+
+              <div className="relative h-full w-full rounded-full bg-[radial-gradient(circle_at_30%_30%,#a78bfa,#6366f1_45%,#4f46e5_75%)] shadow-[inset_-30px_-30px_60px_rgba(0,0,0,0.25),0_30px_80px_-20px_rgba(99,102,241,0.6)]">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+                  <motion.div
+                    animate={{ y: [0, -6, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <TrendingUp className="h-20 w-20" strokeWidth={2.2} />
+                  </motion.div>
+                  <p className="mt-4 text-lg font-semibold">Strategy. Creativity.</p>
+                  <p className="text-lg font-semibold">Performance.</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Floating service cards */}
+          {FLOATERS.map((f) => {
+            const Icon = f.icon;
+            return (
+              <motion.div
+                key={f.title}
+                initial={{ opacity: 0, y: 18, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.7, delay: f.delay, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4, scale: 1.03 }}
+                className={`absolute ${f.pos} z-20 w-56 rounded-2xl bg-white px-4 py-3 shadow-[0_15px_40px_-15px_rgba(15,23,42,0.25)]`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-50">
+                    <Icon className={`h-5 w-5 ${f.iconColor}`} strokeWidth={2.2} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-slate-900">{f.title}</p>
+                    <p className="text-xs leading-snug text-slate-500">{f.body}</p>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </section>
+
+      {/* Subtle dotted decorations */}
+      <div
+        className="pointer-events-none absolute right-10 top-32 h-24 w-24 opacity-40"
+        style={{
+          backgroundImage: "radial-gradient(circle, #cbd5e1 1px, transparent 1px)",
+          backgroundSize: "10px 10px",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute bottom-10 left-10 h-24 w-24 opacity-40"
+        style={{
+          backgroundImage: "radial-gradient(circle, #cbd5e1 1px, transparent 1px)",
+          backgroundSize: "10px 10px",
+        }}
+      />
     </main>
   );
 };
