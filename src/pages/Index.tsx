@@ -1,250 +1,268 @@
-import { useMemo, useState } from "react";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-
-type Project = {
-  title: string;
-  subtitle: string;
-  image: string;
-};
-
-const projects: Project[] = [
-  {
-    title: "Nature",
-    subtitle: "Quiet landscapes around the world.",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    title: "Cars",
-    subtitle: "Performance, design and motion.",
-    image:
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    title: "Animals",
-    subtitle: "Wildlife portraits in their habitat.",
-    image:
-      "https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    title: "Architecture",
-    subtitle: "Modern buildings around the world.",
-    image:
-      "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    title: "Sport",
-    subtitle: "Movement, focus and discipline.",
-    image:
-      "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    title: "Fashion",
-    subtitle: "Editorial style and craft.",
-    image:
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80",
-  },
-];
+import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 const Index = () => {
-  const [active, setActive] = useState(3);
-  const total = projects.length;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
 
-  const go = (delta: number) =>
-    setActive((i) => (i + delta + total) % total);
-  const setIndex = (i: number) => setActive((i + total) % total);
+  // Raw mouse position (-0.5 .. 0.5) relative to container
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
 
-  const visible = useMemo(() => {
-    // show 5 cards centered around active: -2,-1,0,+1,+2
-    return [-2, -1, 0, 1, 2].map((offset) => {
-      const idx = (active + offset + total) % total;
-      return { ...projects[idx], offset, idx };
-    });
-  }, [active, total]);
+  // Smoothed springs for premium motion
+  const sx = useSpring(mx, { stiffness: 80, damping: 18, mass: 0.6 });
+  const sy = useSpring(my, { stiffness: 80, damping: 18, mass: 0.6 });
+
+  // Parallax transforms (different depths)
+  const birdX = useTransform(sx, (v) => v * 40);
+  const birdY = useTransform(sy, (v) => v * 30);
+  const birdRot = useTransform(sx, (v) => v * 6);
+
+  const c1X = useTransform(sx, (v) => v * 90);
+  const c1Y = useTransform(sy, (v) => v * 70);
+  const c2X = useTransform(sx, (v) => v * -120);
+  const c2Y = useTransform(sy, (v) => v * 60);
+  const c3X = useTransform(sx, (v) => v * 60);
+  const c3Y = useTransform(sy, (v) => v * -90);
+  const c4X = useTransform(sx, (v) => v * -70);
+  const c4Y = useTransform(sy, (v) => v * -50);
+
+  const leftTextX = useTransform(sx, (v) => v * -15);
+  const rightTextX = useTransform(sx, (v) => v * 15);
+
+  // Custom cursor
+  const cursorX = useSpring(useMotionValue(0), { stiffness: 300, damping: 30 });
+  const cursorY = useSpring(useMotionValue(0), { stiffness: 300, damping: 30 });
+  const cursorRingX = useSpring(useMotionValue(0), { stiffness: 120, damping: 20 });
+  const cursorRingY = useSpring(useMotionValue(0), { stiffness: 120, damping: 20 });
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const onMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      mx.set(x);
+      my.set(y);
+
+      cursorX.set(e.clientX - rect.left);
+      cursorY.set(e.clientY - rect.top);
+      cursorRingX.set(e.clientX - rect.left);
+      cursorRingY.set(e.clientY - rect.top);
+    };
+    el.addEventListener("mousemove", onMove);
+    return () => el.removeEventListener("mousemove", onMove);
+  }, [mx, my, cursorX, cursorY, cursorRingX, cursorRingY]);
 
   return (
-    <main className="min-h-screen bg-[#F3F4F6] font-sans text-slate-900 overflow-x-hidden">
-      <div className="mx-auto max-w-[1280px] px-4 py-6 md:px-8 md:py-10">
-        <div
-          className="rounded-[28px] bg-white px-6 py-7 md:px-12 md:py-10"
-          style={{ boxShadow: "0 30px 80px -40px rgba(15, 23, 42, 0.2)" }}
-        >
-          {/* Top navigation */}
-          <header className="flex items-center justify-between">
-            <a href="#" className="flex items-center gap-2">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-white text-[13px] font-semibold">
-                S
-              </span>
-              <span className="text-sm font-medium tracking-tight text-slate-800">
-                studio<span className="text-slate-400">.</span>
-              </span>
-            </a>
+    <main className="min-h-screen bg-white font-sans text-slate-900 overflow-hidden">
+      <section
+        ref={containerRef}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className="relative h-screen w-full cursor-none select-none"
+      >
+        {/* Split background */}
+        <div className="absolute inset-0 grid grid-cols-2">
+          <div className="bg-[#E26D5C]" />
+          <div className="bg-white" />
+        </div>
 
-            <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium uppercase tracking-[0.18em]">
-              <a href="#" className="text-slate-400 hover:text-slate-700 transition-colors">
-                My Story
-              </a>
-              <a href="#" className="relative text-slate-900">
-                My Work
-                <span className="absolute -bottom-2 left-1/2 h-[3px] w-6 -translate-x-1/2 rounded-full bg-slate-900" />
-              </a>
-            </nav>
-
+        {/* Top nav */}
+        <header className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-8 md:px-14 py-6">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="text-white text-xl"
+          >
+            ✦
+          </motion.div>
+          <motion.nav
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="hidden md:flex items-center gap-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700"
+          >
+            <a href="#" className="hover:text-slate-900 transition-colors">Themes +</a>
+            <a href="#" className="hover:text-slate-900 transition-colors">Extensions</a>
+            <a href="#" className="hover:text-slate-900 transition-colors">Packages</a>
+            <a href="#" className="hover:text-slate-900 transition-colors">Resources +</a>
+            <a href="#" className="hover:text-slate-900 transition-colors">Help</a>
             <a
               href="#"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-[12px] font-medium uppercase tracking-[0.18em] text-slate-700 hover:bg-slate-50 transition-colors"
+              className="rounded-full bg-slate-800 px-5 py-2 text-white tracking-[0.2em]"
             >
-              Contact
-              <ArrowRight className="h-3.5 w-3.5" />
+              Login
             </a>
-          </header>
+          </motion.nav>
+        </header>
 
-          {/* Heading */}
-          <section className="mt-14 md:mt-20 text-center">
-            <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-slate-400">
-              My Work
-            </p>
-            <h1 className="mt-4 mx-auto max-w-3xl text-3xl md:text-5xl lg:text-[56px] font-semibold tracking-tight leading-[1.05] text-slate-900">
-              A collection of theme
-              <br className="hidden md:block" /> divided portfolios.
-            </h1>
-          </section>
+        {/* Floating circles (parallax) */}
+        <motion.div
+          style={{ x: c1X, y: c1Y }}
+          className="absolute left-[38%] top-[22%] z-10 h-3 w-3 rounded-full border border-white/80"
+        />
+        <motion.div
+          style={{ x: c2X, y: c2Y }}
+          className="absolute left-[56%] top-[30%] z-10 h-2 w-2 rounded-full bg-[#E26D5C]/60"
+        />
+        <motion.div
+          style={{ x: c3X, y: c3Y }}
+          className="absolute left-[44%] top-[68%] z-10 h-4 w-4 rounded-full border border-slate-400/60"
+        />
+        <motion.div
+          style={{ x: c4X, y: c4Y }}
+          className="absolute left-[60%] top-[60%] z-10 h-2.5 w-2.5 rounded-full bg-white/80"
+        />
+        <motion.div
+          style={{ x: c1X, y: c3Y }}
+          className="absolute left-[62%] top-[20%] z-10 h-6 w-6 rounded-full border border-slate-300/70 flex items-center justify-center"
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-[#E26D5C]/70" />
+        </motion.div>
 
-          {/* Carousel */}
-          <section className="relative mt-12 md:mt-16">
-            <div className="relative h-[440px] md:h-[520px] flex items-center justify-center">
-              {visible.map((card) => {
-                const { offset, idx } = card;
-                const isCenter = offset === 0;
-                const abs = Math.abs(offset);
+        {/* Left text */}
+        <motion.div
+          style={{ x: leftTextX }}
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute left-0 top-1/2 z-20 w-1/2 -translate-y-1/2 px-10 md:px-20 text-white"
+        >
+          <p className="max-w-sm text-2xl md:text-[28px] leading-[1.4] font-light">
+            The combination of great design and diligent app development.
+          </p>
+          <motion.a
+            href="#"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+            className="group mt-8 inline-flex items-center gap-3 rounded-full border border-white/90 px-7 py-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-white relative overflow-hidden"
+          >
+            <span className="relative z-10">View Themes</span>
+            <ArrowRight className="h-3.5 w-3.5 relative z-10 transition-transform group-hover:translate-x-1" />
+            <span className="absolute inset-0 bg-white/15 scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
+          </motion.a>
+        </motion.div>
 
-                // sizes
-                const width = isCenter
-                  ? "w-[300px] md:w-[640px]"
-                  : abs === 1
-                  ? "w-[80px] md:w-[110px]"
-                  : "w-[60px] md:w-[80px]";
-                const height = isCenter
-                  ? "h-[420px] md:h-[500px]"
-                  : "h-[360px] md:h-[440px]";
+        {/* Right text */}
+        <motion.div
+          style={{ x: rightTextX }}
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute right-0 top-1/2 z-20 w-1/2 -translate-y-1/2 px-10 md:px-20 text-slate-800"
+        >
+          <p className="max-w-sm text-2xl md:text-[28px] leading-[1.4] font-light">
+            We make{" "}
+            <span className="text-[#E26D5C] font-medium">sleek and modern</span>{" "}
+            designs for your business.
+          </p>
+        </motion.div>
 
-                // horizontal placement
-                const translatePx =
-                  offset === 0
-                    ? 0
-                    : offset < 0
-                    ? -360 + (offset + 1) * 100 // -1 -> -360, -2 -> -460
-                    : 360 + (offset - 1) * 100; // 1 -> 360, 2 -> 460
+        {/* Center bird */}
+        <motion.div
+          style={{ x: birdX, y: birdY, rotate: birdRot }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2"
+        >
+          <div className="relative h-[260px] w-[260px] md:h-[340px] md:w-[340px]">
+            {/* Left half - design (dark/code-textured wing) */}
+            <svg
+              viewBox="0 0 200 200"
+              className="absolute inset-0 h-full w-full"
+              style={{ clipPath: "inset(0 50% 0 0)" }}
+            >
+              <defs>
+                <pattern id="codeTex" patternUnits="userSpaceOnUse" width="14" height="14">
+                  <rect width="14" height="14" fill="#1f2937" />
+                  <text x="1" y="10" fontSize="8" fill="#60a5fa" fontFamily="monospace">{"</>"}</text>
+                </pattern>
+              </defs>
+              {/* Stylized bird body + wing */}
+              <path
+                d="M40 110 C 60 60, 110 50, 150 80 L 165 100 L 140 110 C 110 130, 70 140, 40 130 Z"
+                fill="url(#codeTex)"
+              />
+              <path
+                d="M70 90 L 130 70 L 120 105 Z"
+                fill="#0f172a"
+                opacity="0.9"
+              />
+            </svg>
 
-                const opacity = abs === 0 ? 1 : abs === 1 ? 0.85 : 0.55;
-                const z = 10 - abs;
+            {/* Right half - photographic bird (warm) */}
+            <svg
+              viewBox="0 0 200 200"
+              className="absolute inset-0 h-full w-full"
+              style={{ clipPath: "inset(0 0 0 50%)" }}
+            >
+              <defs>
+                <linearGradient id="birdGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#F4A261" />
+                  <stop offset="100%" stopColor="#C97B4A" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M100 110 C 130 80, 160 90, 175 105 L 195 108 L 175 118 C 155 132, 125 138, 100 130 Z"
+                fill="url(#birdGrad)"
+              />
+              {/* Beak */}
+              <path d="M175 108 L 198 110 L 175 114 Z" fill="#1f2937" />
+              {/* Eye */}
+              <circle cx="160" cy="106" r="2.4" fill="#0f172a" />
+            </svg>
 
-                return (
-                  <button
-                    key={`${idx}-${offset}`}
-                    onClick={() => setIndex(idx)}
-                    className={`group absolute ${width} ${height} overflow-hidden rounded-[22px] text-left transition-all duration-500 ease-out`}
-                    style={{
-                      transform: `translateX(${translatePx}px) scale(${
-                        isCenter ? 1 : 0.98
-                      })`,
-                      opacity,
-                      zIndex: z,
-                      boxShadow: isCenter
-                        ? "0 30px 60px -25px rgba(15, 23, 42, 0.45)"
-                        : "0 15px 30px -20px rgba(15, 23, 42, 0.35)",
-                    }}
-                    aria-label={card.title}
-                  >
-                    <img
-                      src={card.image}
-                      alt={card.title}
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    {/* dark overlay */}
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        background: isCenter
-                          ? "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%)"
-                          : "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.65) 100%)",
-                      }}
-                    />
+            {/* Soft glow circles around bird */}
+            <motion.span
+              animate={{ scale: hovered ? 1.15 : 1, opacity: hovered ? 0.9 : 0.5 }}
+              transition={{ duration: 0.6 }}
+              className="absolute -top-4 left-6 h-4 w-4 rounded-full border border-white/80"
+            />
+            <motion.span
+              animate={{ scale: hovered ? 1.2 : 1, opacity: hovered ? 0.9 : 0.4 }}
+              transition={{ duration: 0.6, delay: 0.05 }}
+              className="absolute bottom-4 right-2 h-3 w-3 rounded-full bg-[#E26D5C]/70"
+            />
+            <motion.span
+              animate={{ scale: hovered ? 1.1 : 1, opacity: hovered ? 0.7 : 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="absolute top-10 -right-6 h-2 w-2 rounded-full bg-slate-700/60"
+            />
+          </div>
+        </motion.div>
 
-                    {/* Side card vertical label */}
-                    {!isCenter && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span
-                          className="text-[11px] md:text-xs font-medium uppercase tracking-[0.32em] text-white/90"
-                          style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
-                        >
-                          {card.title}
-                        </span>
-                      </div>
-                    )}
+        {/* Custom cursor (dot + ring) */}
+        <motion.div
+          style={{ x: cursorX, y: cursorY }}
+          className="pointer-events-none absolute top-0 left-0 z-40 -translate-x-1/2 -translate-y-1/2"
+        >
+          <div className="h-2 w-2 rounded-full bg-white mix-blend-difference" />
+        </motion.div>
+        <motion.div
+          style={{ x: cursorRingX, y: cursorRingY }}
+          animate={{ scale: hovered ? 1.4 : 1 }}
+          className="pointer-events-none absolute top-0 left-0 z-40 -translate-x-1/2 -translate-y-1/2"
+        >
+          <div className="h-9 w-9 rounded-full border border-white/70 mix-blend-difference" />
+        </motion.div>
 
-                    {/* Center card content */}
-                    {isCenter && (
-                      <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 text-white">
-                        <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-white/70">
-                          Featured
-                        </p>
-                        <h3 className="mt-2 text-3xl md:text-5xl font-semibold tracking-tight">
-                          {card.title}
-                        </h3>
-                        <p className="mt-2 max-w-md text-sm md:text-base text-white/80">
-                          {card.subtitle}
-                        </p>
-                        <span className="mt-5 inline-flex w-max items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[12px] font-medium uppercase tracking-[0.18em] text-slate-900 transition-transform group-hover:translate-x-1">
-                          Show Portfolio
-                          <ArrowRight className="h-3.5 w-3.5" />
-                        </span>
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
-
-              {/* Arrows */}
-              <button
-                onClick={() => go(-1)}
-                aria-label="Previous"
-                className="absolute left-2 md:left-6 top-1/2 z-20 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 backdrop-blur border border-slate-200 text-slate-700 hover:bg-white transition"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => go(1)}
-                aria-label="Next"
-                className="absolute right-2 md:right-6 top-1/2 z-20 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 backdrop-blur border border-slate-200 text-slate-700 hover:bg-white transition"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
-
-            {/* Progress + indicator */}
-            <div className="mt-10 flex items-center justify-between gap-6">
-              <span className="text-[12px] font-medium uppercase tracking-[0.28em] text-slate-400">
-                {String(active + 1).padStart(2, "0")}
-                <span className="mx-2 text-slate-300">/</span>
-                {String(total).padStart(2, "0")}
-              </span>
-
-              <div className="relative flex-1 h-[2px] bg-slate-200 rounded-full overflow-hidden">
-                <div
-                  className="absolute left-0 top-0 h-full bg-slate-900 rounded-full transition-all duration-500 ease-out"
-                  style={{ width: `${((active + 1) / total) * 100}%` }}
-                />
-              </div>
-
-              <span className="text-[12px] font-medium uppercase tracking-[0.28em] text-slate-500 hidden md:block">
-                {projects[active].title}
-              </span>
-            </div>
-          </section>
-        </div>
-      </div>
+        {/* Down arrow */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="absolute right-8 top-6 z-30 text-slate-700"
+        >
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-sm">
+            <span className="text-xs">↓</span>
+          </div>
+        </motion.div>
+      </section>
     </main>
   );
 };
