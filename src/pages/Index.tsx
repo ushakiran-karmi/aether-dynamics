@@ -1,270 +1,253 @@
 import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  Target,
-  Gem,
-  Megaphone,
-  Search,
-  PieChart,
-  TrendingUp,
-  Smile,
-  Rocket,
-  LineChart,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, Menu, Plus } from "lucide-react";
 
-const NAV = ["Home", "About", "Services", "Portfolio", "Contact"];
+const NAV = ["Work", "Services", "About", "Insights", "Contact"];
 
-const FLOATERS = [
-  {
-    icon: Target,
-    title: "Strategy",
-    body: "Data-backed marketing strategies",
-    iconColor: "text-blue-500",
-    pos: "top-[2%] left-[42%]",
-    delay: 0.2,
-  },
-  {
-    icon: Gem,
-    title: "Branding",
-    body: "Build memorable brand identities",
-    iconColor: "text-rose-400",
-    pos: "top-[28%] left-[6%]",
-    delay: 0.35,
-  },
-  {
-    icon: Megaphone,
-    title: "Ads Campaigns",
-    body: "High-converting ad campaigns",
-    iconColor: "text-amber-400",
-    pos: "top-[32%] right-[2%]",
-    delay: 0.5,
-  },
-  {
-    icon: Search,
-    title: "SEO",
-    body: "Rank higher & get found faster",
-    iconColor: "text-emerald-500",
-    pos: "bottom-[10%] left-[20%]",
-    delay: 0.65,
-  },
-  {
-    icon: PieChart,
-    title: "Analytics",
-    body: "Track, analyze & improve performance",
-    iconColor: "text-blue-500",
-    pos: "bottom-[4%] right-[4%]",
-    delay: 0.8,
-  },
+const SERVICES = [
+  { num: "01", title: "Brand Strategy" },
+  { num: "02", title: "Visual Identity" },
+  { num: "03", title: "Brand Experience" },
+  { num: "04", title: "Brand Guidelines" },
 ];
 
-const STATS = [
-  { icon: Smile, color: "bg-blue-100 text-blue-500", value: "120+", label: "Happy Clients" },
-  { icon: Rocket, color: "bg-violet-100 text-violet-500", value: "250+", label: "Projects Delivered" },
-  { icon: LineChart, color: "bg-emerald-100 text-emerald-500", value: "8X", label: "Average ROI" },
+const PROCESS = [
+  { num: "01", title: "Discover", body: "We research your brand, audience and market to find the right direction." },
+  { num: "02", title: "Define", body: "We define your brand strategy, positioning and personality." },
+  { num: "03", title: "Design", body: "We create a unique visual identity that expresses who you are." },
+  { num: "04", title: "Deliver", body: "We build guidelines and assets to ensure a consistent brand experience." },
 ];
 
 const Index = () => {
   return (
-    <main className="min-h-screen bg-[#F1F3FA] font-sans text-slate-900 overflow-hidden">
+    <main className="min-h-screen bg-[#F5F3EF] font-sans text-neutral-900 antialiased">
       {/* Navbar */}
-      <header className="sticky top-6 z-40 mx-auto flex max-w-5xl items-center justify-between rounded-2xl bg-white px-6 py-3 shadow-[0_10px_40px_-15px_rgba(15,23,42,0.15)]">
-        <div className="flex items-center gap-1 text-2xl font-extrabold tracking-tight">
-          <span className="text-blue-500">M</span>
-          <span className="text-emerald-500">W</span>
+      <header className="mx-auto flex max-w-7xl items-center justify-between px-8 py-7">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center">
+            <svg viewBox="0 0 40 40" className="h-7 w-7 fill-neutral-900">
+              <polygon points="20,4 4,34 36,34" />
+            </svg>
+          </div>
+          <span className="text-sm font-semibold tracking-[0.18em] text-neutral-900">MEDIA WAGON</span>
         </div>
-        <nav className="flex items-center gap-2 text-sm font-medium text-slate-600">
+
+        <nav className="hidden items-center gap-10 text-[13px] font-medium text-neutral-700 md:flex">
           {NAV.map((item) => (
-            <a
-              key={item}
-              href="#"
-              className={`rounded-full px-5 py-2 transition-colors ${
-                item === "About"
-                  ? "bg-blue-50 text-blue-600"
-                  : "hover:text-slate-900"
-              }`}
-            >
+            <a key={item} href="#" className={`transition-colors hover:text-neutral-900 ${item === "Services" ? "border-b border-neutral-900 pb-1 text-neutral-900" : ""}`}>
               {item}
             </a>
           ))}
         </nav>
+
+        <div className="flex items-center gap-3">
+          <a
+            href="#"
+            className="group inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-5 py-2.5 text-[13px] font-medium text-neutral-900 transition-all hover:border-neutral-900"
+          >
+            Let's Talk
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </a>
+          <button className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-300 bg-white">
+            <Menu className="h-4 w-4" />
+          </button>
+        </div>
       </header>
 
       {/* Hero */}
-      <section className="relative mx-auto mt-12 grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-2 lg:px-14">
-        {/* LEFT */}
-        <div>
-          <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-slate-400">
-            <span className="h-px w-10 bg-slate-300" />
-            Scroll To Reveal About Us
+      <section className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-8 pb-24 pt-8 lg:grid-cols-2">
+        <div className="relative">
+          <div className="flex items-center gap-4 text-[11px] font-medium tracking-[0.25em] text-neutral-500">
+            <span>01</span>
+            <span className="h-px w-8 bg-neutral-400" />
+            <span>SERVICE</span>
           </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mt-16 text-sm font-semibold uppercase tracking-[0.28em] text-blue-600"
-          >
-            Who We Are
-          </motion.p>
-
           <motion.h1
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="mt-4 text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight text-slate-900"
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-10 text-[120px] leading-[0.9] tracking-tight text-neutral-900"
+            style={{ fontFamily: '"Dancing Script", "Brush Script MT", cursive', fontWeight: 500 }}
           >
-            We Don&apos;t Just Market,
-            <br />
-            We{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
-              Grow Brands.
-            </span>
+            Branding
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="mt-6 max-w-md text-base leading-relaxed text-slate-500"
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="mt-8 text-3xl font-light tracking-tight text-neutral-900"
+            style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
           >
-            We&apos;re a performance-driven marketing &amp; advertising agency
-            that combines strategy, creativity, and data to deliver measurable
-            growth for your business.
+            that defines identity.
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.25 }}
+            className="mt-8 text-sm leading-relaxed text-neutral-600"
+          >
+            We craft brands that stand out,
+            <br />
+            connect deeply and stay remembered.
           </motion.p>
 
           <motion.a
             href="#"
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="group mt-9 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-500 py-3 pl-7 pr-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/30"
+            transition={{ duration: 0.8, delay: 0.35 }}
+            className="group mt-12 inline-flex items-center gap-6 border-b border-neutral-900 pb-2 text-sm font-semibold text-neutral-900"
           >
-            Know More About Us
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/25 transition-transform group-hover:translate-x-1">
-              <ArrowRight className="h-4 w-4" />
-            </span>
+            Start a Project
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </motion.a>
-
-          {/* Stats */}
-          <div className="mt-16 flex flex-wrap items-center gap-10">
-            {STATS.map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <motion.div
-                  key={s.label}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
-                  className="flex items-center gap-3"
-                >
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-full ${s.color}`}>
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="text-xl font-bold text-slate-900">{s.value}</p>
-                    <p className="text-xs text-slate-500">{s.label}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
         </div>
 
-        {/* RIGHT — Orbit */}
-        <div className="relative h-[560px] lg:h-[640px]">
-          {/* Orbit rings */}
-          <div className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-slate-300/60" />
-          <div className="absolute left-1/2 top-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-slate-200/70" />
+        {/* Right hero visual */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="relative h-[520px]"
+        >
+          {/* Big circle */}
+          <div className="absolute right-10 top-6 h-[420px] w-[420px] rounded-full bg-[#EBE7DF]" />
 
-          {/* Orbit dots */}
-          <span className="absolute left-[26%] top-[18%] h-2.5 w-2.5 rounded-full border border-blue-400 bg-white" />
-          <span className="absolute right-[20%] top-[28%] h-2.5 w-2.5 rounded-full bg-pink-400" />
-          <span className="absolute right-[14%] top-[55%] h-2.5 w-2.5 rounded-full bg-emerald-400" />
-          <span className="absolute bottom-[12%] left-[42%] h-2.5 w-2.5 rounded-full border border-blue-400 bg-white" />
-
-          {/* Decorative spheres */}
-          <motion.div
-            animate={{ y: [0, -14, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute right-[2%] top-[8%] h-24 w-24 rounded-full bg-gradient-to-br from-violet-300 to-indigo-400 opacity-80 blur-[1px]"
+          {/* Floating dots */}
+          <motion.span
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute left-[35%] top-[18%] h-3 w-3 rounded-full bg-white shadow-md"
           />
-          <motion.div
+          <motion.span
             animate={{ y: [0, 12, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute right-[6%] top-[12%] h-4 w-4 rounded-full bg-white shadow-md"
+          />
+          <motion.span
+            animate={{ y: [0, -8, 0] }}
             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-[18%] left-[6%] h-16 w-16 rounded-full bg-gradient-to-br from-white to-slate-200 shadow-lg"
+            className="absolute right-[2%] top-[55%] h-5 w-5 rounded-full bg-white shadow-md"
           />
 
-          {/* Central hero sphere */}
+          {/* Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            initial={{ opacity: 0, y: 30, rotate: -2 }}
+            animate={{ opacity: 1, y: 0, rotate: -3 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="absolute right-24 top-20 flex h-[360px] w-[260px] flex-col items-center justify-center rounded-sm bg-[#F8F6F1] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.25)]"
           >
-            <div className="relative h-[300px] w-[300px] md:h-[340px] md:w-[340px]">
-              {/* Glow */}
-              <div className="absolute -inset-10 rounded-full bg-pink-300/40 blur-3xl" />
-              <div className="absolute -inset-6 rounded-full bg-blue-400/30 blur-2xl" />
+            <svg viewBox="0 0 100 60" className="h-12 w-20 stroke-neutral-700" fill="none" strokeWidth="1.2">
+              <path d="M10 50 L30 15 L50 40 L70 15 L90 50" />
+            </svg>
+            <p className="mt-4 text-lg tracking-[0.35em] text-neutral-700" style={{ fontFamily: 'Georgia, serif' }}>
+              MONVÉR
+            </p>
+            <p className="mt-1 text-[9px] tracking-[0.4em] text-neutral-500">BEYOND ORDINARY</p>
+          </motion.div>
 
-              <div className="relative h-full w-full rounded-full bg-[radial-gradient(circle_at_30%_30%,#a78bfa,#6366f1_45%,#4f46e5_75%)] shadow-[inset_-30px_-30px_60px_rgba(0,0,0,0.25),0_30px_80px_-20px_rgba(99,102,241,0.6)]">
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-                  <motion.div
-                    animate={{ y: [0, -6, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <TrendingUp className="h-20 w-20" strokeWidth={2.2} />
-                  </motion.div>
-                  <p className="mt-4 text-lg font-semibold">Strategy. Creativity.</p>
-                  <p className="text-lg font-semibold">Performance.</p>
+          {/* Small circle disc */}
+          <div className="absolute bottom-16 right-72 flex h-20 w-20 items-center justify-center rounded-full bg-[#F8F6F1] shadow-lg">
+            <svg viewBox="0 0 100 60" className="h-6 w-10 stroke-neutral-600" fill="none" strokeWidth="1.5">
+              <path d="M10 50 L30 15 L50 40 L70 15 L90 50" />
+            </svg>
+          </div>
+
+          {/* Clip */}
+          <div className="absolute bottom-10 right-32 h-10 w-6 rounded-sm bg-neutral-800 shadow-md" />
+        </motion.div>
+      </section>
+
+      {/* What we do */}
+      <section className="border-t border-neutral-200 bg-[#F5F3EF]">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-8 py-24 lg:grid-cols-3">
+          <div>
+            <div className="flex items-center gap-3 text-[11px] font-medium tracking-[0.25em] text-neutral-500">
+              WHAT WE DO
+              <span className="h-px w-8 bg-neutral-400" />
+            </div>
+            <h3 className="mt-10 text-4xl leading-tight tracking-tight text-neutral-900" style={{ fontFamily: 'Georgia, serif' }}>
+              End-to-end
+              <br />
+              branding that
+              <br />
+              builds <em className="italic">perception.</em>
+            </h3>
+            <div className="mt-8 h-px w-10 bg-neutral-400" />
+            <p className="mt-6 max-w-xs text-sm leading-relaxed text-neutral-600">
+              From strategy to execution, we create meaningful brands that leave a lasting impact.
+            </p>
+          </div>
+
+          <div className="lg:col-span-1">
+            <ul>
+              {SERVICES.map((s) => (
+                <li key={s.num} className="group flex items-center justify-between border-b border-neutral-300 py-7">
+                  <div className="flex items-center gap-10">
+                    <span className="text-xs text-neutral-500">{s.num}</span>
+                    <span className="text-xl text-neutral-900" style={{ fontFamily: 'Georgia, serif' }}>{s.title}</span>
+                  </div>
+                  <Plus className="h-4 w-4 text-neutral-500 transition-transform group-hover:rotate-90" />
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <div className="aspect-[4/5] w-full overflow-hidden bg-[#EBE7DF]">
+              <div className="flex h-full w-full items-end justify-center bg-gradient-to-b from-[#F0EDE6] to-[#DDD8CE] p-6">
+                <div className="w-full bg-white/70 px-3 py-2 text-center">
+                  <p className="text-[10px] tracking-[0.3em] text-neutral-700" style={{ fontFamily: 'Georgia, serif' }}>MONVÉR</p>
+                  <p className="text-[7px] tracking-[0.3em] text-neutral-500">BRAND GUIDELINES</p>
                 </div>
               </div>
             </div>
-          </motion.div>
-
-          {/* Floating service cards */}
-          {FLOATERS.map((f) => {
-            const Icon = f.icon;
-            return (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, y: 18, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.7, delay: f.delay, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -4, scale: 1.03 }}
-                className={`absolute ${f.pos} z-20 w-56 rounded-2xl bg-white px-4 py-3 shadow-[0_15px_40px_-15px_rgba(15,23,42,0.25)]`}
-              >
-                <div className="flex items-start gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-50">
-                    <Icon className={`h-5 w-5 ${f.iconColor}`} strokeWidth={2.2} />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-bold text-slate-900">{f.title}</p>
-                    <p className="text-xs leading-snug text-slate-500">{f.body}</p>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+            <p className="mt-6 text-sm leading-relaxed text-neutral-700" style={{ fontFamily: 'Georgia, serif' }}>
+              Thoughtful strategy. Timeless identity.
+              <br />
+              Consistent everywhere.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Subtle dotted decorations */}
-      <div
-        className="pointer-events-none absolute right-10 top-32 h-24 w-24 opacity-40"
-        style={{
-          backgroundImage: "radial-gradient(circle, #cbd5e1 1px, transparent 1px)",
-          backgroundSize: "10px 10px",
-        }}
-      />
-      <div
-        className="pointer-events-none absolute bottom-10 left-10 h-24 w-24 opacity-40"
-        style={{
-          backgroundImage: "radial-gradient(circle, #cbd5e1 1px, transparent 1px)",
-          backgroundSize: "10px 10px",
-        }}
-      />
+      {/* Our process */}
+      <section className="border-t border-neutral-200 bg-[#F5F3EF]">
+        <div className="mx-auto max-w-7xl px-8 py-20">
+          <div className="flex items-center gap-3 text-[11px] font-medium tracking-[0.25em] text-neutral-500">
+            OUR PROCESS
+            <span className="h-px w-8 bg-neutral-400" />
+          </div>
+
+          <div className="relative mt-16 grid grid-cols-1 gap-12 md:grid-cols-4">
+            {PROCESS.map((p, i) => (
+              <motion.div
+                key={p.num}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="relative"
+              >
+                <div className="flex items-center gap-4">
+                  <span className="text-5xl font-light text-neutral-900" style={{ fontFamily: 'Georgia, serif' }}>{p.num}</span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-neutral-900" />
+                  {i < PROCESS.length - 1 && (
+                    <span className="hidden flex-1 border-t border-dashed border-neutral-400 md:block" />
+                  )}
+                  {i < PROCESS.length - 1 && (
+                    <span className="hidden h-1.5 w-1.5 rounded-full bg-neutral-900 md:block" />
+                  )}
+                </div>
+                <h4 className="mt-8 text-lg text-neutral-900" style={{ fontFamily: 'Georgia, serif' }}>{p.title}</h4>
+                <p className="mt-4 max-w-[200px] text-sm leading-relaxed text-neutral-600">{p.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
     </main>
   );
 };
